@@ -30,5 +30,16 @@ public class NewsBean {
     }
 public static class Bean{
 
-  }
+    private Object mtime;
+    private char[] title;
+
+
+    public Object getMtime() {
+        return mtime;
+    }
+
+    public char[] getTitle() {
+        return title;
+    }
+}
 }
