@@ -4,6 +4,8 @@ import java.util.concurrent.TimeUnit;
 
 import cn.edu.gdmec.android.mynew.Bean.MovieBean;
 import cn.edu.gdmec.android.mynew.Bean.NewsBean;
+import cn.edu.gdmec.android.mynew.Bean.TodayBean;
+import cn.edu.gdmec.android.mynew.Bean.VideoUrlBean;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Retrofit;
@@ -33,6 +35,12 @@ public class RetrofitHelper {
     }
     public Observable<MovieBean> getMovie(String movie, String type){
         return retrofitService.getMovies(movie,type);
+    }
+    public Observable<TodayBean> getToday(String category){
+        return retrofitService.getToday(category);
+    }
+    public Observable<VideoUrlBean> getVideoUrl(String api){
+        return retrofitService.getVideoUrl(api);
     }
     public OkHttpClient getOkHttpClient(){
         if (okHttpClient==null){

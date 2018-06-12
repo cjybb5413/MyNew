@@ -2,9 +2,13 @@ package cn.edu.gdmec.android.mynew.Http;
 
 import cn.edu.gdmec.android.mynew.Bean.MovieBean;
 import cn.edu.gdmec.android.mynew.Bean.NewsBean;
+import cn.edu.gdmec.android.mynew.Bean.TodayBean;
+import cn.edu.gdmec.android.mynew.Bean.VideoUrlBean;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
+import retrofit2.http.Url;
 import rx.Observable;
 
 /**
@@ -19,4 +23,9 @@ public interface RetrofitService {
     @GET("v2/{movie}/{total}")
     Observable<MovieBean> getMovies(@Path("movie") String movie,
                                     @Path("total") String type);
+    @GET("news/feed/v51/")
+    Observable<TodayBean> getToday(@Query("category") String category);
+
+    @GET
+    Observable<VideoUrlBean> getVideoUrl(@Url String url);
 }
