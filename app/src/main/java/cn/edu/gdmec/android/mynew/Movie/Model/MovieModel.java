@@ -17,9 +17,9 @@ import rx.schedulers.Schedulers;
 
 public class MovieModel implements IMovieModel {
     @Override
-    public void loadMoive(final String movie, final String type, final IOnLoadListener iOnLoadListener) {
+    public void loadMoives(final String total, final IOnLoadListener iOnLoadListener) {
         RetrofitHelper retrofitHelper = new RetrofitHelper(Api.MOVIE_HOST);
-        retrofitHelper.getMovie(movie,type)
+        retrofitHelper.getMovie(total)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Subscriber<MovieBean>() {

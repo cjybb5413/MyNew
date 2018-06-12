@@ -6,4 +6,5 @@ package cn.edu.gdmec.android.mynew.Video.Model;
 
 public interface IVideoModel {
     void loadVideo(String category,IVideoLoadListener iVideoLoadListener);
+    void loadWeather();
 }

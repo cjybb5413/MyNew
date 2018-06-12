@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -54,7 +55,7 @@ public class ItemMovieInAdapter extends RecyclerView.Adapter<ItemMovieInAdapter.
                 .into(holder.ivMovieIn);
         holder.tvMovieInTitle.setText(bean.getTitle());
 
-        holder.rvMovieIn.setOnClickListener(new View.OnClickListener() {
+        holder.rlMovieIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, ADetailActivity.class);
@@ -73,13 +74,13 @@ public class ItemMovieInAdapter extends RecyclerView.Adapter<ItemMovieInAdapter.
     public class ViewHolder extends RecyclerView.ViewHolder{
         private ImageView ivMovieIn;
         private TextView tvMovieInTitle;
-        private RelativeLayout rvMovieIn;
+        private LinearLayout rlMovieIn;
 
         public ViewHolder(View view) {
             super(view);
             ivMovieIn = view.findViewById(R.id.iv_movie_in);
             tvMovieInTitle = view.findViewById(R.id.tv_movie_in_title);
-            rvMovieIn = view.findViewById(R.id.rl_movie_in);
+            rlMovieIn = view.findViewById(R.id.rl_movie_in);
         }
     }
 }

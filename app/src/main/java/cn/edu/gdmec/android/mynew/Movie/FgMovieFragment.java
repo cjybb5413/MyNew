@@ -39,33 +39,35 @@ public class FgMovieFragment extends Fragment implements IMovieView {
         super.onViewCreated(view, savedInstanceState);
         moviesPresenter = new MoviePresenter(this);
         srl_movie = view.findViewById(R.id.srl_movie);
+        srl_movie.setColorSchemeColors(Color.parseColor("#ffce3d3a"));
         rv_movie_on = view.findViewById(R.id.rv_movie_hot);
         rv_movie_in = view.findViewById(R.id.rv_movie_hot1);
         movieOnAdapter = new ItemMovieOnAdapter(getActivity());
         movieInAdapter = new ItemMovieInAdapter(getActivity());
-        moviesPresenter.loadMovie("movie","top250");
-        srl_movie.setColorSchemeColors(Color.parseColor("#ffce3d3a"));
-        moviesPresenter.loadMovie("movie","in_theaters");
+        moviesPresenter.loadMovies("in_theaters");
+        moviesPresenter.loadMovies("top250");
         srl_movie.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                moviesPresenter.loadMovie("movie","in_theaters");
-                moviesPresenter.loadMovie("movie","top250");
+                moviesPresenter.loadMovies("in_theaters");
+                moviesPresenter.loadMovies("top250");
             }
         });
     }
 
     @Override
-    public void showMovies(MovieBean movieBean) {
-        if (movieBean.getTotal()==29) {
+    public void showMovies(final MovieBean movieBean) {
+        if (movieBean.getTotal() == 250) {
+            movieInAdapter.setData(movieBean.getSubjects());
+            rv_movie_in.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false));
+            rv_movie_in.setAdapter(movieInAdapter);
+        }else{
+
             movieOnAdapter.setData(movieBean.getSubjects());
             rv_movie_on.setLayoutManager(new LinearLayoutManager(getActivity()));
             rv_movie_on.setAdapter(movieOnAdapter);
-        }else if (movieBean.getTotal()==250){
-            movieInAdapter.setData(movieBean.getSubjects());
-            rv_movie_in.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayout.HORIZONTAL,false));
-            rv_movie_in.setAdapter(movieInAdapter);
         }
+
     }
 
     @Override
@@ -75,7 +77,7 @@ public class FgMovieFragment extends Fragment implements IMovieView {
 
     @Override
     public void showDialog() {
-        srl_movie.setRefreshing(true);
+        srl_movie.setRefreshing(false);
     }
 
     @Override

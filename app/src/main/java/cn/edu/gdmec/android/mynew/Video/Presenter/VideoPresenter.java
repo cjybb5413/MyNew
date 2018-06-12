@@ -31,6 +31,7 @@ public class VideoPresenter implements IVideoPresenter, IVideoLoadListener {
     public void loadVideo() {
         iVideoView.showDialog();
         iVideoModel.loadVideo("video", this);
+        iVideoModel.loadWeather();
     }
 
     @Override

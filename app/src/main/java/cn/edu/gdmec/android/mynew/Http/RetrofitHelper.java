@@ -6,6 +6,7 @@ import cn.edu.gdmec.android.mynew.Bean.MovieBean;
 import cn.edu.gdmec.android.mynew.Bean.NewsBean;
 import cn.edu.gdmec.android.mynew.Bean.TodayBean;
 import cn.edu.gdmec.android.mynew.Bean.VideoUrlBean;
+import cn.edu.gdmec.android.mynew.Bean.WeatherBean;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Retrofit;
@@ -33,14 +34,17 @@ public class RetrofitHelper {
     public Observable<NewsBean> getNews(String type, String id, int startPage){
         return retrofitService.getNews(type,id,startPage);
     }
-    public Observable<MovieBean> getMovie(String movie, String type){
-        return retrofitService.getMovies(movie,type);
+    public Observable<MovieBean> getMovie(String total){
+        return retrofitService.getMovies(total);
     }
     public Observable<TodayBean> getToday(String category){
         return retrofitService.getToday(category);
     }
     public Observable<VideoUrlBean> getVideoUrl(String api){
         return retrofitService.getVideoUrl(api);
+    }
+    public Observable<WeatherBean> getWeather(int citykey){
+        return retrofitService.getWeather(citykey);
     }
     public OkHttpClient getOkHttpClient(){
         if (okHttpClient==null){

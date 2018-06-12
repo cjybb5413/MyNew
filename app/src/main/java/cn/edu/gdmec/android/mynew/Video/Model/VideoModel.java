@@ -1,11 +1,14 @@
 package cn.edu.gdmec.android.mynew.Video.Model;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.edu.gdmec.android.mynew.Bean.TodayBean;
 import cn.edu.gdmec.android.mynew.Bean.TodayContentBean;
 import cn.edu.gdmec.android.mynew.Bean.VideoUrlBean;
+import cn.edu.gdmec.android.mynew.Bean.WeatherBean;
 import cn.edu.gdmec.android.mynew.Http.Api;
 import cn.edu.gdmec.android.mynew.Http.RetrofitHelper;
 import cn.edu.gdmec.android.mynew.Video.Presenter.VideoPresenter;
@@ -20,6 +23,8 @@ import rx.schedulers.Schedulers;
  */
 
 public class VideoModel implements IVideoModel {
+    private Integer[] city={101280101,101280102,101280103,101280104,101280105, 101280201,101280202,101280203,101280204,101280205,101280206, 101280207,101280208,101280501};
+
     @Override
     public void loadVideo(String category, final IVideoLoadListener iVideoLoadListener) {
         final List<VideoUrlBean> videoList = new ArrayList<>();
@@ -58,6 +63,35 @@ public class VideoModel implements IVideoModel {
                     @Override
                     public void onNext(VideoUrlBean videoUrlBean) {
                       videoList.add(videoUrlBean);
+                    }
+                });
+    }
+
+    @Override
+    public void loadWeather() {
+        final RetrofitHelper retrofitHelper = new RetrofitHelper(Api.WEATHER_HOST);
+        Observable.from(city).flatMap(new Func1<Integer, Observable<WeatherBean>>() {
+            @Override
+            public Observable<WeatherBean> call(Integer integer) {
+                return retrofitHelper.getWeather(integer);
+            }
+        })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<WeatherBean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(WeatherBean weatherBean) {
+                        Log.d("aa",weatherBean.getData().getCity()+":"+weatherBean.getData().getGanmao());
                     }
                 });
     }
