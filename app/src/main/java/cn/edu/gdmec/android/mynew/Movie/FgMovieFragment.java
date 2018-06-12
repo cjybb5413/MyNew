@@ -44,13 +44,13 @@ public class FgMovieFragment extends Fragment implements IMovieView {
         rv_movie_in = view.findViewById(R.id.rv_movie_hot1);
         movieOnAdapter = new ItemMovieOnAdapter(getActivity());
         movieInAdapter = new ItemMovieInAdapter(getActivity());
-        moviesPresenter.loadMovies("in_theaters");
-        moviesPresenter.loadMovies("top250");
+        moviesPresenter.loadMovie("in_theaters");
+        moviesPresenter.loadMovie("top250");
         srl_movie.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                moviesPresenter.loadMovies("in_theaters");
-                moviesPresenter.loadMovies("top250");
+                moviesPresenter.loadMovie("in_theaters");
+                moviesPresenter.loadMovie("top250");
             }
         });
     }

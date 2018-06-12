@@ -35,7 +35,7 @@ public class MoviePresenter implements IMoviePresenter,IOnLoadListener {
     }
 
     @Override
-    public void loadMovies(String total) {
+    public void loadMovie(String total) {
         iMovieView.showDialog();
        iMovieModel.loadMoives(total,this);
     }

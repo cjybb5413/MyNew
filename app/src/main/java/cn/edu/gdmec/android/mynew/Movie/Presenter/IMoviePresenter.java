@@ -5,5 +5,5 @@ package cn.edu.gdmec.android.mynew.Movie.Presenter;
  */
 
 public interface IMoviePresenter {
-    void loadMovies(String total);
+    void loadMovie(String total);
 }
