@@ -32,6 +32,8 @@ public class FgNewsListFragment extends Fragment implements INewsView{
     private RecyclerView rv_news;
     private ItemNewsAdapter adapter;
     private List<NewsBean.Bean> newsBeanList;
+    private LinearLayoutManager layoutManager;
+    private int startPage=0;
 
 
 
@@ -66,6 +68,16 @@ public class FgNewsListFragment extends Fragment implements INewsView{
             }
         });
         presenter.loadNews(type,0);
+
+        rv_news.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                if (newState==RecyclerView.SCROLL_STATE_IDLE &&
+                        (layoutManager.findLastVisibleItemPosition() + 1)==layoutManager.getItemCount()){
+                    loadMore();
+                }
+            }
+        });
     }
 
     @Override
@@ -82,12 +94,33 @@ public class FgNewsListFragment extends Fragment implements INewsView{
                         break;
                 }
         adapter.setData(newsBeanList);
-        rv_news.setLayoutManager(new LinearLayoutManager(getActivity(),
-                LinearLayoutManager.VERTICAL, false));
+        layoutManager=new LinearLayoutManager(getActivity(),
+                LinearLayoutManager.VERTICAL, false);
+        rv_news.setLayoutManager(layoutManager);
         rv_news.setAdapter(adapter);
         tv_news.setVisibility(View.GONE);
     }
 
+    @Override
+    public void showMoreNews(NewsBean newsBean) {
+        switch (type){
+            case FgNewsFragment.NEWS_TYPE_TOP:
+                adapter.addData(newsBean.getTop());
+                break;
+            case FgNewsFragment.NEWS_TYPE_NBA:
+                adapter.addData(newsBean.getNba());
+                break;
+            case FgNewsFragment.NEWS_TYPE_JOKES:
+                adapter.addData(newsBean.getJokes());
+                break;
+        }
+        adapter.notifyDataSetChanged();
+    }
+
+    private void loadMore(){
+        startPage+=20;
+        presenter.loadNews(type,startPage);
+    }
     @Override
     public void hideDialog() {
       srl_news.setRefreshing(false);
@@ -100,6 +133,7 @@ public class FgNewsListFragment extends Fragment implements INewsView{
 
     @Override
     public void showErrorMsg(String error) {
+        adapter.notifyItemRemoved(adapter.getItemCount());
       tv_news.setText("加载失败："+error);
     }
 }

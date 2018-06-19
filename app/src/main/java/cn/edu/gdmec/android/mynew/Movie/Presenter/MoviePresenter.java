@@ -2,7 +2,7 @@ package cn.edu.gdmec.android.mynew.Movie.Presenter;
 
 import cn.edu.gdmec.android.mynew.Bean.MovieBean;
 import cn.edu.gdmec.android.mynew.Movie.Model.IMovieModel;
-import cn.edu.gdmec.android.mynew.Movie.Model.IOnLoadListener;
+import cn.edu.gdmec.android.mynew.Movie.Model.IOnMovieListener;
 import cn.edu.gdmec.android.mynew.Movie.Model.MovieModel;
 import cn.edu.gdmec.android.mynew.Movie.View.IMovieView;
 
@@ -11,7 +11,7 @@ import cn.edu.gdmec.android.mynew.Movie.View.IMovieView;
  * Created by apple on 18/5/22.
  */
 
-public class MoviePresenter implements IMoviePresenter,IOnLoadListener {
+public class MoviePresenter implements IMoviePresenter,IOnMovieListener {
     private IMovieModel iMovieModel;
     private IMovieView iMovieView;
 
@@ -35,8 +35,16 @@ public class MoviePresenter implements IMoviePresenter,IOnLoadListener {
     }
 
     @Override
-    public void loadMovie(String total) {
-        iMovieView.showDialog();
-       iMovieModel.loadMoives(total,this);
+    public void loadMoreSuccess(MovieBean movieBean) {
+        iMovieView.hideDialog();
+        iMovieView.showMoreMovie(movieBean);
+    }
+
+    @Override
+    public void loadMovie(String total,int start) {
+        if (start==0) {
+            iMovieView.showDialog();
+            iMovieModel.loadMoives(total, start, this);
+        }
     }
 }

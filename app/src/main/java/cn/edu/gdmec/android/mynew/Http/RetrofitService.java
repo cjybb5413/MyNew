@@ -21,8 +21,9 @@ public interface RetrofitService {
     Observable<NewsBean> getNews(@Path("type") String type,
                                  @Path("id") String id,
                                  @Path("startPage") int startPage);
-    @GET("v2/{movie}/{total}")
-    Observable<MovieBean> getMovies(@Path("total") String total);
+    @GET("v2/{movie}/{total}/{start}")
+    Observable<MovieBean> getMovies(@Path("total") String total,
+                                    @Path("start") int start);
     @GET("news/feed/v51/")
     Observable<TodayBean> getToday(@Query("category") String category);
 

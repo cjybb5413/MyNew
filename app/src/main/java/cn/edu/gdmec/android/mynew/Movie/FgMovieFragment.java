@@ -25,6 +25,8 @@ public class FgMovieFragment extends Fragment implements IMovieView {
     private SwipeRefreshLayout srl_movie;
     private ItemMovieOnAdapter movieOnAdapter;
     private ItemMovieInAdapter movieInAdapter;
+    private LinearLayoutManager layoutManager;
+    private int start=0;
 
 
     @Override
@@ -44,13 +46,21 @@ public class FgMovieFragment extends Fragment implements IMovieView {
         rv_movie_in = view.findViewById(R.id.rv_movie_hot1);
         movieOnAdapter = new ItemMovieOnAdapter(getActivity());
         movieInAdapter = new ItemMovieInAdapter(getActivity());
-        moviesPresenter.loadMovie("in_theaters");
-        moviesPresenter.loadMovie("top250");
+        moviesPresenter.loadMovie("in_theaters",20);
+        moviesPresenter.loadMovie("top250",20);
         srl_movie.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                moviesPresenter.loadMovie("in_theaters");
-                moviesPresenter.loadMovie("top250");
+                moviesPresenter.loadMovie("in_theaters",20);
+                moviesPresenter.loadMovie("top250",20);
+            }
+        });
+        rv_movie_on.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int movieState) {
+                if (movieState==RecyclerView.SCROLL_STATE_IDLE && (layoutManager.findLastVisibleItemPosition() + 1)==layoutManager.getItemCount()){
+                    loadMore();
+                }
             }
         });
     }
@@ -62,12 +72,24 @@ public class FgMovieFragment extends Fragment implements IMovieView {
             rv_movie_in.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false));
             rv_movie_in.setAdapter(movieInAdapter);
         }else{
-
             movieOnAdapter.setData(movieBean.getSubjects());
-            rv_movie_on.setLayoutManager(new LinearLayoutManager(getActivity()));
+            layoutManager=new LinearLayoutManager(getActivity(),
+                    LinearLayoutManager.VERTICAL,false);
+            rv_movie_on.setLayoutManager(layoutManager);
             rv_movie_on.setAdapter(movieOnAdapter);
         }
 
+    }
+
+    @Override
+    public void showMoreMovie(MovieBean movieBean) {
+        movieOnAdapter.addData(movieBean.getSubjects());
+        movieOnAdapter.notifyDataSetChanged();
+    }
+
+    private void loadMore(){
+        start+=20;
+        moviesPresenter.loadMovie("in_theaters",start);
     }
 
     @Override
@@ -82,6 +104,7 @@ public class FgMovieFragment extends Fragment implements IMovieView {
 
     @Override
     public void showErrorMsg(String error) {
+        movieOnAdapter.notifyItemRemoved(movieOnAdapter.getItemCount());
         Toast.makeText(getContext(),"加载出错"+error.toString(),Toast.LENGTH_SHORT).show();
     }
 

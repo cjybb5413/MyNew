@@ -8,6 +8,8 @@ import cn.edu.gdmec.android.mynew.Bean.NewsBean;
 
 public interface INewsView {
     void showNews(NewsBean newsBean);
+
+    void showMoreNews(NewsBean newsBean);
     void hideDialog();
     void showDialog();
     void showErrorMsg(String error);

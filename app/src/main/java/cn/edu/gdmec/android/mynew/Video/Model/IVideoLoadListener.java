@@ -11,4 +11,5 @@ import cn.edu.gdmec.android.mynew.Bean.VideoUrlBean;
 public interface IVideoLoadListener {
     void videoUrlSuccess(List<VideoUrlBean> videoUrlBeans, List<TodayContentBean> contentBeans);
     void fail(Throwable throwable);
+    void loadMoreVideo(List<TodayContentBean> contentBeans,List<String> videoList);
 }

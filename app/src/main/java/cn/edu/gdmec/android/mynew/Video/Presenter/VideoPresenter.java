@@ -52,6 +52,12 @@ public class VideoPresenter implements IVideoPresenter, IVideoLoadListener {
         iVideoView.showErrorMsg(throwable);
     }
 
+    @Override
+    public void loadMoreVideo(List<TodayContentBean> todayContentBeans, List<String> videoList) {
+        iVideoView.hideDialog();
+        iVideoView.showMoreVideo(todayContentBeans,videoList);
+    }
+
     public static String getVideoContentApi(String videoid) {
         String VIDEO_HOST = "http://ib.365yg.com";
         String VIDEO_URL = "/video/urls/v/1/toutiao/mp4/%s?r=%s";
