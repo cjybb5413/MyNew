@@ -29,9 +29,12 @@ public class ItemMovieInAdapter extends RecyclerView.Adapter<ItemMovieInAdapter.
 
     private Context context;
 
+    private LayoutInflater layoutInflater;
+
     public ItemMovieInAdapter(Context context) {
 
         this.context = context;
+        this.layoutInflater=LayoutInflater.from(context);
     }
     public void setData(List<MovieBean.SubjectsBean> objects){
         this.objects = objects;
@@ -64,6 +67,11 @@ public class ItemMovieInAdapter extends RecyclerView.Adapter<ItemMovieInAdapter.
                 context.startActivity(intent);
             }
         });
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
     }
 
     @Override

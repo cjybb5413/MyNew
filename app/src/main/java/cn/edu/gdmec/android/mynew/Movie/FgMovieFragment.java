@@ -46,13 +46,13 @@ public class FgMovieFragment extends Fragment implements IMovieView {
         rv_movie_in = view.findViewById(R.id.rv_movie_hot1);
         movieOnAdapter = new ItemMovieOnAdapter(getActivity());
         movieInAdapter = new ItemMovieInAdapter(getActivity());
-        moviesPresenter.loadMovie("in_theaters",20);
-        moviesPresenter.loadMovie("top250",20);
+        moviesPresenter.loadMovies("in_theaters",20);
+        moviesPresenter.loadMovies("top250",20);
         srl_movie.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                moviesPresenter.loadMovie("in_theaters",20);
-                moviesPresenter.loadMovie("top250",20);
+                moviesPresenter.loadMovies("in_theaters",20);
+                moviesPresenter.loadMovies("top250",20);
             }
         });
         rv_movie_on.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -89,7 +89,7 @@ public class FgMovieFragment extends Fragment implements IMovieView {
 
     private void loadMore(){
         start+=20;
-        moviesPresenter.loadMovie("in_theaters",start);
+        moviesPresenter.loadMovies("in_theaters",start);
     }
 
     @Override
@@ -99,7 +99,7 @@ public class FgMovieFragment extends Fragment implements IMovieView {
 
     @Override
     public void showDialog() {
-        srl_movie.setRefreshing(false);
+        srl_movie.setRefreshing(true);
     }
 
     @Override
